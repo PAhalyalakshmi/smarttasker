@@ -1,0 +1,5 @@
+server/node_modules/
+server/.env
+server/.env.*
+!.env.example
+npm-debug.log*

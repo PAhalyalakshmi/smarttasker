@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f7f5fc" />
+    <meta name="description" content="SmartTasker helps you focus on what matters, one task at a time." />
+    <title>SmartTasker — Make room for your best work</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+      <aside class="sidebar" id="sidebar">
+        <a class="brand" href="/" aria-label="SmartTasker home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none">
+              <path d="M7 16.5 13 22l12-13" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M16 2.8 19.2 6l4.4-.2.2 4.4 3.2 3.2-3.2 3.2.2 4.4-4.4.2-3.2 3.2-3.2-3.2-4.4.2-.2-4.4-3.2-3.2 3.2-3.2-.2-4.4 4.4-.2L16 2.8Z" stroke="currentColor" stroke-width="1.5" opacity=".55" />
+            </svg>
+          </span>
+          <span class="brand-name">smart<span>tasker</span></span>
+        </a>
+
+        <button class="sidebar-create" id="sidebarCreate" type="button">
+          <span aria-hidden="true">＋</span> Create a task
+          <kbd>N</kbd>
+        </button>
+
+        <div class="sidebar-label">WORKSPACE</div>
+        <nav class="side-nav" aria-label="Task views">
+          <button class="side-link is-active" data-filter="all" type="button">
+            <span class="side-icon" aria-hidden="true">▦</span>
+            <span>All tasks</span>
+            <span class="side-count" id="allCount">0</span>
+          </button>
+          <button class="side-link" data-filter="todo" type="button">
+            <span class="side-icon" aria-hidden="true">◷</span>
+            <span>To do</span>
+            <span class="side-count" id="todoCount">0</span>
+          </button>
+          <button class="side-link" data-filter="in-progress" type="button">
+            <span class="side-icon" aria-hidden="true">◌</span>
+            <span>In progress</span>
+            <span class="side-count" id="progressCount">0</span>
+          </button>
+          <button class="side-link" data-filter="done" type="button">
+            <span class="side-icon" aria-hidden="true">✓</span>
+            <span>Completed</span>
+            <span class="side-count" id="doneCount">0</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <div class="focus-card">
+            <span class="focus-spark" aria-hidden="true">✦</span>
+            <p class="focus-title">A little focus goes a long way.</p>
+            <p class="focus-copy">Pick one thing. Give it your attention. You’ve got this.</p>
+          </div>
+          <div class="sidebar-credit">
+            <span class="avatar-dot">S</span>
+            <span><strong>My workspace</strong><small>Personal plan</small></span>
+            <span class="more-dots" aria-hidden="true">···</span>
+          </div>
+        </div>
+      </aside>
+
+      <div class="main-panel">
+        <header class="topbar">
+          <button class="icon-button mobile-menu" id="mobileMenu" type="button" aria-label="Open menu">
+            <span aria-hidden="true">☰</span>
+          </button>
+          <div class="topbar-date">
+            <span class="date-dot" aria-hidden="true"></span>
+            <span id="todayLabel"></span>
+          </div>
+          <div class="topbar-actions">
+            <button class="icon-button theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark theme">
+              <span id="themeIcon" aria-hidden="true">☾</span>
+            </button>
+            <button class="primary-button top-create" id="topCreate" type="button">
+              <span aria-hidden="true">＋</span> New task
+            </button>
+          </div>
+        </header>
+
+        <main class="dashboard">
+          <section class="welcome-card">
+            <div class="welcome-copy">
+              <span class="welcome-eyebrow"><span aria-hidden="true">✦</span> YOUR DAY, WITH A LITTLE MORE CLARITY</span>
+              <h1>Make room for<br /><em>your best work.</em></h1>
+              <p>One clear next step can change the whole day. Let’s find yours.</p>
+              <button class="welcome-button" id="welcomeCreate" type="button">
+                Plan a task <span aria-hidden="true">→</span>
+              </button>
+            </div>
+            <div class="welcome-art" aria-hidden="true">
+              <div class="art-orbit orbit-one"></div>
+              <div class="art-orbit orbit-two"></div>
+              <div class="art-sun"></div>
+              <div class="art-card art-card-back"></div>
+              <div class="art-card art-card-front">
+                <span class="art-check">✓</span>
+                <span class="art-line art-line-long"></span>
+                <span class="art-line art-line-short"></span>
+                <span class="art-chip">ONE STEP AT A TIME</span>
+              </div>
+              <span class="art-star star-one">✦</span>
+              <span class="art-star star-two">✧</span>
+            </div>
+          </section>
+
+          <section class="stats-grid" aria-label="Task overview">
+            <article class="stat-card">
+              <span class="stat-icon stat-purple" aria-hidden="true">▦</span>
+              <span class="stat-label">Total tasks</span>
+              <strong class="stat-value" id="statTotal">0</strong>
+              <span class="stat-foot">In your workspace</span>
+            </article>
+            <article class="stat-card">
+              <span class="stat-icon stat-green" aria-hidden="true">✓</span>
+              <span class="stat-label">Completed</span>
+              <strong class="stat-value" id="statCompleted">0</strong>
+              <span class="stat-foot">Every finish counts</span>
+            </article>
+            <article class="stat-card">
+              <span class="stat-icon stat-blue" aria-hidden="true">◌</span>
+              <span class="stat-label">In progress</span>
+              <strong class="stat-value" id="statInProgress">0</strong>
+              <span class="stat-foot">Keep your momentum</span>
+            </article>
+            <article class="stat-card progress-stat">
+              <div class="progress-stat-top">
+                <span class="stat-label">Your progress</span>
+                <strong id="progressPercent">0%</strong>
+              </div>
+              <div class="progress-track" role="progressbar" aria-label="Tasks completed" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressTrack">
+                <span id="progressFill"></span>
+              </div>
+              <span class="stat-foot">Small steps add up.</span>
+            </article>
+          </section>
+
+          <section class="task-section" aria-labelledby="taskHeading">
+            <div class="task-section-heading">
+              <div>
+                <span class="section-kicker">YOUR WORKSPACE</span>
+                <h2 id="taskHeading">Your tasks <span id="visibleCount">0</span></h2>
+                <p>Keep the important things moving.</p>
+              </div>
+              <button class="secondary-button" id="sectionCreate" type="button">
+                <span aria-hidden="true">＋</span> Add task
+              </button>
+            </div>
+
+            <div class="task-toolbar">
+              <label class="search-box">
+                <span aria-hidden="true">⌕</span>
+                <input id="searchInput" type="search" placeholder="Search your tasks..." aria-label="Search tasks" />
+                <kbd>/</kbd>
+              </label>
+              <div class="toolbar-controls">
+                <label class="select-wrap">
+                  <span class="sr-only">Filter by priority</span>
+                  <select id="priorityFilter">
+                    <option value="all">All priorities</option>
+                    <option value="high">High priority</option>
+                    <option value="medium">Medium priority</option>
+                    <option value="low">Low priority</option>
+                  </select>
+                </label>
+                <label class="select-wrap sort-select">
+                  <span class="sr-only">Sort tasks</span>
+                  <select id="sortSelect">
+                    <option value="due">Due date</option>
+                    <option value="created">Recently added</option>
+                    <option value="priority">Priority</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+
+            <div class="mobile-filters" aria-label="Task status filters">
+              <button class="filter-chip is-active" data-filter="all" type="button">All</button>
+              <button class="filter-chip" data-filter="todo" type="button">To do</button>
+              <button class="filter-chip" data-filter="in-progress" type="button">In progress</button>
+              <button class="filter-chip" data-filter="done" type="button">Done</button>
+            </div>
+
+            <div class="task-list" id="taskList" aria-live="polite">
+              <div class="loading-state">Getting your tasks ready…</div>
+            </div>
+          </section>
+
+          <footer class="dashboard-footer">
+            <span>Made for clearer days <span aria-hidden="true">✦</span></span>
+            <span>SmartTasker · A little progress, every day</span>
+          </footer>
+        </main>
+      </div>
+    </div>
+
+    <dialog class="modal" id="taskDialog">
+      <form class="modal-card" id="taskForm">
+        <div class="modal-header">
+          <div>
+            <span class="section-kicker">MAKE IT HAPPEN</span>
+            <h2 id="modalTitle">Create a task</h2>
+          </div>
+          <button class="icon-button modal-close" type="button" data-close-dialog="taskDialog" aria-label="Close dialog">×</button>
+        </div>
+        <label class="form-field form-field-full">
+          <span>Task title <b>*</b></span>
+          <input name="title" type="text" maxlength="120" placeholder="What needs to get done?" required autofocus />
+        </label>
+        <label class="form-field form-field-full">
+          <span>Notes</span>
+          <textarea name="description" rows="3" maxlength="800" placeholder="Add a few helpful details…"></textarea>
+        </label>
+        <div class="form-grid">
+          <label class="form-field">
+            <span>Category</span>
+            <input name="category" type="text" maxlength="40" placeholder="e.g. Work" />
+          </label>
+          <label class="form-field">
+            <span>Due date</span>
+            <input name="dueDate" type="date" />
+          </label>
+          <label class="form-field">
+            <span>Priority</span>
+            <select name="priority">
+              <option value="low">Low</option>
+              <option value="medium" selected>Medium</option>
+              <option value="high">High</option>
+            </select>
+          </label>
+          <label class="form-field">
+            <span>Status</span>
+            <select name="status">
+              <option value="todo">To do</option>
+              <option value="in-progress">In progress</option>
+              <option value="done">Completed</option>
+            </select>
+          </label>
+        </div>
+        <div class="modal-actions">
+          <button class="secondary-button" type="button" data-close-dialog="taskDialog">Cancel</button>
+          <button class="primary-button" id="saveTaskButton" type="submit">Create task</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="modal confirm-modal" id="deleteDialog">
+      <div class="modal-card confirm-card">
+        <span class="confirm-icon" aria-hidden="true">!</span>
+        <h2>Delete this task?</h2>
+        <p>This task will be removed from your workspace.</p>
+        <div class="modal-actions">
+          <button class="secondary-button" type="button" data-close-dialog="deleteDialog">Keep task</button>
+          <button class="danger-button" id="confirmDelete" type="button">Delete task</button>
+        </div>
+      </div>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
